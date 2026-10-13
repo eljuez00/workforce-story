@@ -1,0 +1,10 @@
+data/hr.db
+data/csv/
+logs/
+evals/results/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+.pytest_cache/
+.vercel

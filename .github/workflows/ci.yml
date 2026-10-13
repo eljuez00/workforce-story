@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Generate the fictional company
+        run: python -m generator.generate
+      - name: Tests (data invariants, guardrails, agent loop)
+        run: python -m pytest -q
+      - name: Offline evals (tools vs independent SQL ground truth)
+        run: python -m evals.run_evals
+      - name: Dashboard data is up to date
+        run: |
+          python -m metrics.build
+          python - <<'EOF'
+          import json, subprocess
+          new = json.load(open("app/data/metrics.json"))
+          old = json.loads(subprocess.check_output(["git", "show", "HEAD:app/data/metrics.json"]))
+          for d in (new, old):
+              d["meta"].pop("generated_at", None)
+          assert new == old, "app/data/metrics.json is stale: run `python -m metrics.build` and commit it"
+          EOF
