@@ -4,7 +4,7 @@
 
 Cedar Fork Health is an invented regional health system with three hospitals, a clinic network and about 5,000 employees, roughly one in five of whom leave every year. This repository generates its complete HR history (hires, terminations, job changes, requisitions, payroll checks, HR service cases and pay decisions), turns it into a six-chapter interactive story, and puts a Claude tool-calling agent on top of the data with the guardrails a regulated employer would require.
 
-**Live app:** https://eljuezproductions.com/workforce *(update once deployed)*
+**Live app:** https://workforce.eljuezproductions.com
 
 Everything here is fictional: people, names, organizations and numbers are produced by a seeded simulation.
 
@@ -117,7 +117,7 @@ make serve      # http://localhost:8000
 The app is static (`app/`), so either of these works:
 
 - **Its own Vercel project (simplest):** import this repo in Vercel. `vercel.json` already serves `app/`. Then add a domain such as `workforce.eljuezproductions.com`.
-- **Inside the existing site:** copy `app/` into the site's static folder (for example `public/workforce/`), so it serves at `eljuezproductions.com/workforce`.
+- **Inside an existing site:** copy `app/` into the site's static folder (for example `public/workforce/`).
 
 ## Project structure
 
@@ -137,6 +137,3 @@ app/         index.html, styles.css, app.js, data/metrics.json
 - Pay ranges are fixed except for the July 2025 nursing adjustment. There's no annual structure increase.
 - The live agent runs from the command line. The web app doesn't call the model.
 
----
-
-Built by [Jacob Frie](https://www.linkedin.com/in/eljuez).
